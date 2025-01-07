@@ -461,3 +461,41 @@ variable "s3_csi_bucket_names" {
   default     = [""]
 }
 
+variable "karpenter_metadata_options" {
+  description = "Metadata options for the EC2NodeClass"
+  default = {
+    httpEndpoint         = "enabled"
+    httpProtocolIPv6     = "disabled"
+    httpPutResponseHopLimit = 1
+    httpTokens           = "optional"
+  }
+}
+
+variable "karpenter_block_device_mappings" {
+  description = "Block device mappings for the EC2NodeClass"
+  default = [
+    {
+      deviceName = "/dev/xvda"
+      ebs = {
+        volumeSize = "20Gi"
+        volumeType = "gp3"
+        encrypted  = true
+      }
+    },
+    {
+      deviceName = "/dev/xvdb"
+      ebs = {
+        volumeSize = "50Gi"
+        volumeType = "gp3"
+        encrypted  = true
+      }
+    }
+  ]
+}
+
+variable "karpenter_ami_selector_terms" {
+  description = "AMI selector terms for the EC2NodeClass"
+  default = [
+    { alias = "bottlerocket@latest" }
+  ]
+}
